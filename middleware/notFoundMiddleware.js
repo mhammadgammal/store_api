@@ -1,3 +1,4 @@
-const notFound = (req, res) => { throw new NotFoundException('Route not found') }
+const NotFoundException = require('../exception/notFoundExeption')
+const notFound = (_, __) => { throw new NotFoundException('Route not found') }
 
 module.exports = notFound
