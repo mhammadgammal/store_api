@@ -21,27 +21,39 @@ const getProductById = asyncWrapper(
 );
 
 const search = asyncWrapper(async (req, res) => {
-    const { name, category } = req.query;
+    const { name } = req.query;
+    const filteredProducts = await productModel.find({
+        name: name
+    })
     res.status(200).json({
         status: 'success',
-        message: `Search results for name: ${name} and category: ${category}`
+        products: filteredProducts
     })
 });
 
 const createProduct = asyncWrapper(
     async (req, res) => {
-        res.status(500).json({
-            status: 'error',
-            message: 'This route is not implemented yet'
+        const product = await productModel.create(req.body)
+        res.status(201).json({
+            status: 'success',
+            product
         });
     }
 );
 
 const updateProduct = asyncWrapper(
     async (req, res) => {
-        res.status(500).json({
-            status: 'error',
-            message: 'This route is not implemented yet'
+        const id = req.params.id;
+        console.log(`Updating product with ID: ${id}`);
+        console.log(`Request body: ${JSON.stringify(req.body)}`);
+        
+        const product = await productModel.findByIdAndUpdate(id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        res.status(200).json({
+            status: 'success',
+            product
         });
     }
 );
@@ -49,7 +61,7 @@ const updateProduct = asyncWrapper(
 const deleteProduct = asyncWrapper(async (req, res) => {
     const id = req.params.id;
     await productModel.findByIdAndDelete(id);
-    res.status().json({
+    res.status(200).json({
         sttatus: 'success',
         message: 'Product deleted successfully'
     });
