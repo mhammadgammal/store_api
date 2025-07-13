@@ -29,4 +29,4 @@ connectToDatabase().then(
             () => console.log(`Server is running: http://localhost:${port}...`)
         )
     }
-)
+).catch((err) => console.error('Failed to connect to the database:', err.message))
