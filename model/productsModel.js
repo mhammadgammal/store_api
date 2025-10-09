@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const productsSchema = new mongoose.Schema({
+const productsSchema = new Schema({
     name: {
         type: String,
         required: [
@@ -46,4 +46,13 @@ const productsSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('product', productsSchema);
+const Product = model('product', productsSchema);
+
+// Export the model as default and expose commonly used model static helpers as named exports
+export default Product;
+
+export const find = (...args) => Product.find(...args);
+export const findById = (id) => Product.findById(id);
+export const create = (doc) => Product.create(doc);
+export const findByIdAndUpdate = (id, update, options) => Product.findByIdAndUpdate(id, update, options);
+export const findByIdAndDelete = (id) => Product.findByIdAndDelete(id);

@@ -1,7 +1,8 @@
-const NotFoundException = require('../exception/notFoundExeption');
+import NotFoundException from '../exception/notFoundExeption.js';
+
 const errorHandlerMiddleware = (err, req, res, next) => {
     console.error(`Error:\n ${err.message}\n Stack: ${err.stack}`);
-    
+
     if (err instanceof NotFoundException) {
         res.status(404).json(
             {
@@ -20,4 +21,4 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     }
 }
 
-module.exports = errorHandlerMiddleware;
+export default errorHandlerMiddleware;

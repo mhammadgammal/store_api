@@ -1,4 +1,5 @@
-const NotFoundException = require('../exception/notFoundExeption')
+import NotFoundException from '../exception/notFoundExeption.js'
+
 const notFound = (_, __) => { throw new NotFoundException('Route not found') }
 
-module.exports = notFound
+export default notFound

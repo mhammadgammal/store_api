@@ -1,7 +1,7 @@
-const express = require('express');
+import { Router } from 'express';
 
-const apiRouter = express.Router();
-const productsRoute = require('../productsRoute')
+const apiRouter = Router();
+import productsRoute from '../productsRoute.js';
 apiRouter.route('/')
     .get((req, res) => {
         res.status(200).json({
@@ -11,4 +11,4 @@ apiRouter.route('/')
     });
 
 apiRouter.use('/products', productsRoute);
-module.exports = apiRouter;
+export default apiRouter;

@@ -1,8 +1,8 @@
-const asyncWrapper = require("../helper/asyncWrapper");
-const productModel = require('../model/productsModel');
+import asyncWrapper from "../helper/asyncWrapper.js";
+import { find, findById, create, findByIdAndUpdate, findByIdAndDelete } from '../model/productsModel.js';
 
 const getAllProducts = asyncWrapper(async (req, res) => {
-    const products = await productModel.find();
+    const products = await find();
     res.status(200).json({
         status: 'success',
         products
@@ -12,7 +12,7 @@ const getAllProducts = asyncWrapper(async (req, res) => {
 const getProductById = asyncWrapper(
     async (req, res) => {
         const id = req.params.id;
-        const product = await productModel.findById(id);
+        const product = await findById(id);
         res.status(200).json({
             status: 'success',
             product
@@ -22,7 +22,7 @@ const getProductById = asyncWrapper(
 
 const search = asyncWrapper(async (req, res) => {
     const { name } = req.query;
-    const filteredProducts = await productModel.find({
+    const filteredProducts = await find({
         name: name
     })
     res.status(200).json({
@@ -33,7 +33,7 @@ const search = asyncWrapper(async (req, res) => {
 
 const createProduct = asyncWrapper(
     async (req, res) => {
-        const product = await productModel.create(req.body)
+        const product = await create(req.body)
         res.status(201).json({
             status: 'success',
             product
@@ -46,8 +46,8 @@ const updateProduct = asyncWrapper(
         const id = req.params.id;
         console.log(`Updating product with ID: ${id}`);
         console.log(`Request body: ${JSON.stringify(req.body)}`);
-        
-        const product = await productModel.findByIdAndUpdate(id, req.body, {
+
+        const product = await findByIdAndUpdate(id, req.body, {
             new: true,
             runValidators: true
         });
@@ -60,14 +60,14 @@ const updateProduct = asyncWrapper(
 
 const deleteProduct = asyncWrapper(async (req, res) => {
     const id = req.params.id;
-    await productModel.findByIdAndDelete(id);
+    await findByIdAndDelete(id);
     res.status(200).json({
         sttatus: 'success',
         message: 'Product deleted successfully'
     });
 })
 
-module.exports = {
+export {
     getAllProducts,
     getProductById,
     search,
