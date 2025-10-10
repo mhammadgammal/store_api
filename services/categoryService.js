@@ -1,5 +1,6 @@
 import DuplicateEntryException from '../exception/duplicateEntryException.js';
 import InputValidationException from '../exception/inputValidationException.js';
+import NotFoundException from '../exception/notFoundExeption.js';
 import asyncWrapper from '../helper/asyncWrapper.js';
 import { Category } from '../model/categoryModel.js';
 
@@ -15,6 +16,17 @@ const getCategoris = asyncWrapper(async (req, res) => {
         throw new Error(err.message || 'Something went wrong');
     }
 })
+
+const getCategoryById = asyncWrapper(async (req, res) => {
+    const { id } = req.params;
+    // fetch the document
+    const category = await Category.findById(id);
+    // if no document found, throw an error so the global handler can respond (404)
+    if (!category) {
+        throw new NotFoundException(`Category with id "${id}" not found`);
+    }
+    res.status(200).json({ status: 'success', category });
+});
 
 const createCategory = asyncWrapper(async (req, res) => {
     const name = req.body.name;
@@ -35,4 +47,4 @@ const createCategory = asyncWrapper(async (req, res) => {
     }
 
 });
-export { getCategoris, createCategory };
+export { getCategoris, getCategoryById, createCategory };
