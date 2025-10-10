@@ -3,10 +3,18 @@ import InputValidationException from '../exception/inputValidationException.js';
 import asyncWrapper from '../helper/asyncWrapper.js';
 import { Category } from '../model/categoryModel.js';
 
-const getCategoris = async (req, res) => {
-    const categories = await Category.find();
-    res.status(200).json({ categories });
-}
+const getCategoris = asyncWrapper(async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+        const skip = (page - 1) * limit;
+
+        const categories = await Category.find().skip(skip).limit(limit);
+        res.status(200).json({ status: 'success', categories });
+    } catch (err) {
+        throw new Error(err.message || 'Something went wrong');
+    }
+})
 
 const createCategory = asyncWrapper(async (req, res) => {
     const name = req.body.name;
