@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 const apiRouter = Router();
 import productsRoute from '../productsRoute.js';
+import categoryRoute from '../categoryRoute.js';
 apiRouter.route('/')
     .get((req, res) => {
         res.status(200).json({
@@ -11,4 +12,5 @@ apiRouter.route('/')
     });
 
 apiRouter.use('/products', productsRoute);
+apiRouter.use('/categories', categoryRoute);
 export default apiRouter;
