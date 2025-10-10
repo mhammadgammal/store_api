@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 dotenv.config();
 import express, { json } from 'express';
 import Cors from 'cors';
@@ -10,6 +11,7 @@ import connectToDatabase from './config/database.config.js';
 const app = express();
 
 app.use(json());
+app.use(morgan('dev'));
 app.use(Cors('*'));
 app.use(
     '/api/v1',
