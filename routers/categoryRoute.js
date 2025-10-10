@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 const categoryRoute = Router();
-import { getCategoris, createCategory, getCategoryById } from '../services/categoryService.js';
+import { getCategoris, createCategory, getCategoryById, updateCategory } from '../services/categoryService.js';
 
 categoryRoute.route('/')
     .get(getCategoris)
@@ -9,4 +9,5 @@ categoryRoute.route('/')
 
 categoryRoute.route('/:id')
     .get(getCategoryById)
+    .put(updateCategory);
 export default categoryRoute;
