@@ -12,6 +12,7 @@ const createCategory = asyncWrapper(async (req, res) => {
     const name = req.body.name;
     try {
         const category = await Category.create({ name, image: '' });
+        res.status(201).json({ 'message': 'Category created successfully', category });
     } catch (err) {
         if (err.code === 11000 || err.code === 11001) {
             throw new DuplicateEntryException(`Category with name "${name}" already exists`);
