@@ -12,7 +12,6 @@ const categorySchema = new Schema({
     'image': String,
     'slug': {
         type: String,
-        required: true,
         trim: true,
         lowercase: true,
         unique: true,
@@ -55,4 +54,4 @@ categorySchema.pre('save', async function (next) {
 
 const Category = model('Category', categorySchema);
 
-export default Category;
+export { Category };
