@@ -1,6 +1,6 @@
 import NotFoundException from '../exception/notFoundExeption.js';
 import DuplicateEntryException from '../exception/duplicateEntryException.js';
-
+import InputValidationException from '../exception/inputValidationException.js';
 const errorHandlerMiddleware = (err, req, res, next) => {
     console.error(`Error:\n ${err.message}\n Stack: ${err.stack}`);
 
@@ -18,7 +18,12 @@ const errorHandlerMiddleware = (err, req, res, next) => {
                 message: err.message
             });
             break;
-
+        case err instanceof InputValidationException:
+            res.status(400).json({
+                status: 'error',
+                message: err.message
+            });
+            break;
         default:
             res.status(500).json({
                 status: 'error',
