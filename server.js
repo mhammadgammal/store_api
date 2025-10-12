@@ -7,6 +7,7 @@ import notFoundMiddleware from './middleware/notFoundMiddleware.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import apiRouter from './routers/api/api.js';
 import connectToDatabase from './config/database.config.js';
+import methodNotAllowed from './middleware/methodNotAllowed.js';
 // PORT comes from environment variables (see config/app.config)
 const app = express();
 
@@ -22,6 +23,7 @@ app.get(
     (_, res) => { return res.send('Welcome to Store API'); }
 )
 
+app.use(methodNotAllowed);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 3000;
