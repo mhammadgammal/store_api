@@ -77,17 +77,14 @@ const updateCategory = asyncWrapper(async (req, res) => {
 });
 
 const deleteCategory = asyncWrapper(async (req, res) => {
-    try {
-        const { id } = req.params;
-        const category = await Category.findByIdAndDelete(id);
+    const { id } = req.params;
+    const category = await Category.findByIdAndDelete(id);
         if (!category) {
             throw new NotFoundException(`Category with id "${id}" not found`);
         }
         res.status(200).json({ status: 'success', message: 'Category deleted successfully' });
-    } catch (err) {
-        throw new Error(`Something went wrong, ${err.message}`);
-    }
 });
+
 function validate(name) {
     if (!name || name.trim() === '') {
         throw new InputValidationException('Category name is required');
