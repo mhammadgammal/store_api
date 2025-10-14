@@ -3,7 +3,7 @@ import morgan from 'morgan';
 dotenv.config();
 import express, { json } from 'express';
 import Cors from 'cors';
-import notFoundMiddleware from './middleware/notFoundMiddleware.js';
+import routeNotFoundMiddleware from './middleware/routeNotFoundMiddleware.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 import apiRouter from './routers/api/api.js';
 import connectToDatabase from './config/database.config.js';
@@ -24,7 +24,7 @@ app.get(
 )
 
 app.use(methodNotAllowed);
-app.use(notFoundMiddleware);
+app.use(routeNotFoundMiddleware);
 app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 3000;
 connectToDatabase().then(
