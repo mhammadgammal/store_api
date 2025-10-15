@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Mongoose, Schema, model } from 'mongoose';
 
 const productsSchema = new Schema({
     name: {
@@ -15,16 +15,15 @@ const productsSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    company: {
-        type: String,
-        required: [
-            true,
-            'Company name is required'
-        ],
-        enum: {
-            values: ['ikea', 'liddy', 'caressa', 'marcos'],
-            message: '{VALUE} is not supported'
-        }
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: [true, 'Product category is required']
+    },
+    brand: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Brand',
+        required: [true, 'Product brand is required']
     },
     price: {
         type: Number,
@@ -40,11 +39,9 @@ const productsSchema = new Schema({
         min: [1, 'Rating must be at least 1'],
         max: [5, 'Rating must not exceed 5']
     },
-    createdAt: {
-        type: Date,
-        default: Date.now(),
-    },
-})
+}, {
+    timestamps: true
+});
 
 const Product = model('product', productsSchema);
 
