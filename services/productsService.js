@@ -2,7 +2,9 @@ import asyncWrapper from "../helper/asyncWrapper.js";
 import { find, findById, create, findByIdAndUpdate, findByIdAndDelete } from '../model/productsModel.js';
 
 const getAllProducts = asyncWrapper(async (req, res) => {
-    const products = await find();
+    const products = await find()
+        .populate('category', 'name')
+        .populate('brand', 'name');
     res.status(200).json({
         status: 'success',
         products
@@ -12,7 +14,8 @@ const getAllProducts = asyncWrapper(async (req, res) => {
 const getProductById = asyncWrapper(
     async (req, res) => {
         const id = req.params.id;
-        const product = await findById(id);
+        const product = await findById(id).populate('category', 'name')
+        .populate('brand', 'name');
         res.status(200).json({
             status: 'success',
             product
