@@ -5,7 +5,7 @@ const brandSchema = new Schema({
         type: String,
         required: [true, 'Brand name is required'],
         trim: true,
-        minLength: [3, 'Brand name must be at least 3 characters long'],
+        minLength: [2, 'Brand name must be at least 2 characters long'],
         maxLength: [50, 'Brand name must not exceed 50 characters'],
         unique: true,
     },

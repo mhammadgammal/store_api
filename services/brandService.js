@@ -1,5 +1,6 @@
 import asyncWrapper from "../helper/asyncWrapper.js";
 import DuplicateEntryException from "../exception/duplicateEntryException.js";
+import InputValidationException from "../exception/inputValidationException.js";
 import Brand from "../model/brandModel.js";
 const getBrands = asyncWrapper(async (req, res) => {
     const brands = await Brand.find();
@@ -16,13 +17,14 @@ const getBrandById = asyncWrapper(async (req, res) => {
 });
 
 const createBrand = asyncWrapper(async (req, res) => {
-    const { name } = req.body;
+    const name = req.body.name;
     try {
 
-        const brand = await Brand.create({ name });
+        const brand = await Brand.create({name});
         res.status(201).json({ status: 'success', message: 'Brand created successfully', brand });
     } catch (err) {
-        console.log(`create brand error: ${err.code}`);
+        console.log(`create brand error: ${err.code || err.name}\n${err.message}`);
+        console.log(err.stack);
 
         if (err.code === 11000 || err.code === 11001) {
             throw new DuplicateEntryException(`Brand with name "${name}" already exists`);
@@ -30,7 +32,7 @@ const createBrand = asyncWrapper(async (req, res) => {
         if (err && err.name === 'ValidationError') {
             throw new InputValidationException(err.message);
         }
-        throw new Error('Something went wrong');
+        throw err;
     }
 });
 
